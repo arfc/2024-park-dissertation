@@ -1,0 +1,206 @@
+\begin{frame}
+  \frametitle{1-D MSRE Neutronics Model Geometries}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{case-geometry}
+    \caption{Geometries of the 1-D test cases. The material labeled ``mixture'' represents a
+      homogeneous mixture of fuel and graphite at a ratio of 22.5\%-77.5\% by volume. All geometries
+      have reflective boundary conditions on the boundary at $x=0$ cm. The right-side boundaries are
+      reflective for Cases 1a and 1b, and vacuum for Cases 2a, 2b, 3a, and 3b.}
+    \label{fig:case-geom}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{1-D MSRE Neutronics Modeling Approach}
+  \begin{columns}
+    \column{5.5cm}
+    \textbf{1-D Neutronics Model Setup}
+    \vspace{.2cm}
+
+    \begin{itemize}
+      \item Material compositions derived from the MSRE design
+      \item Reduced gadolinium content in control rod to 0.35 wt\%
+      \item Eight neutron energy groups
+      \item Group constants generated using OpenMC with up to 2nd-order Legendre expansions of scattering
+        matrices
+      \item Uniform temperature at 900 K
+    \end{itemize}
+    \column{5.5cm}
+    \begin{table}[h]
+      \centering
+      \caption{Neutron energy group structure in this work. Originally devised by Jaradat
+      \cite{jaradat_development_2021-1}.}
+      \begin{tabular}{r S}
+        \toprule
+        Group & {Upper energy bound [eV]} \\
+        \midrule
+        1 & 2.000$\times 10^7$ \\
+        2 & 1.353$\times 10^6$ \\
+        3 & 6.734$\times 10^4$ \\
+        4 & 9.118$\times 10^3$ \\
+        5 & 1.487$\times 10^2$ \\
+        6 & 4.000$\times 10^0$ \\
+        7 & 6.250$\times 10^{-1}$ \\
+        8 & 8.000$\times 10^{-2}$ \\
+        \bottomrule
+      \end{tabular}
+      \label{table:energy-group}
+    \end{table}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{1-D MSRE Neutronics Modeling Approach}
+  \textbf{1-D Neutronics Model Numerical Solvers}
+  \vspace{.2cm}
+
+  All 1-D cases ran on each of the following numerical solvers:
+  \begin{enumerate}
+    \item OpenMC in continuous energy mode (OpenMC-CE)
+    \item OpenMC in multigroup mode (OpenMC-MG)
+    \item Neutron diffusion method (Moltres \& Python)
+    \item $S_8$ method (Moltres \& Python)
+    \item Hybrid $S_8$-diffusion method (Moltres \& Python)
+  \end{enumerate}
+  \vspace{.2cm}
+
+  \textbf{Reactivity \& Reactivity Difference}
+  \begin{gather}
+    \mbox{Reactivity } \rho \equiv \frac{k_\text{eff}-1}{k_\text{eff}}.
+  \end{gather}
+  \begin{gather}
+    \Delta\rho = \rho_1 - \rho_2 =
+    \frac{k_{\text{eff},1}-k_{\text{eff},2}}{k_{\text{eff},1}k_{\text{eff},2}}.
+  \end{gather}
+\end{frame}
+
+\begin{frame}
+  \frametitle{1-D MSRE Neutronics Simulation Results}
+  \textbf{1-D Neutronics Model Reactivity Results}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{rho}
+    \caption{Difference in reactivity $\rho$ of all neutronics methods investigated relative
+    to OpenMC-CE.}
+    \label{fig:1d-rho}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{1-D MSRE Neutronics Simulation Results}
+  \textbf{1-D Neutronics Model Control Rod Worth Results}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{worth}
+    \caption{Percentage difference in rod worth for Cases 2 and 3 of all neutronics methods
+    investigated relative to OpenMC-CE.}
+    \label{fig:1d-worth}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{1-D MSRE Neutronics Simulation Results}
+  \textbf{Case 3b Geometry}
+  \begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{hybrid-illustration}
+    \caption{Geometry of 1-D Case 3b.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{1-D MSRE Neutronics Simulation Results}
+  \textbf{Case 3b Neutron Flux Distributions}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[width=.75\columnwidth]{images/case-3b-flux-diff-pres}
+    \caption{Absolute difference in neutron group flux distributions for Case 3b from Moltres-$S_8$,
+    Moltres-diffusion, and Moltres-hybrid relative to OpenMC-MG.}
+    \label{fig:3b-flux-diff}
+  \end{figure}
+%  \begin{itemize}
+%    \item The neutron diffusion and hybrid methods fare worse than the $S_8$ method at capturing
+%      the oscillatory flux pattern.
+    The hybrid method provides more accurate flux estimates than the neutron diffusion method near $x=0$ cm where
+      the control rod is situated.
+%  \end{itemize}
+\end{frame}
+
+%\begin{frame}
+%%  \frametitle{Hybrid $S_N$-Diffusion Method: 1-D Neutronics Eigenvalue Simulations}
+%  \begin{columns}
+%    \column{5.5cm}
+%    \textbf{Case 3b Neutron Flux Distributions}
+%    \begin{itemize}
+%      \item The neutron diffusion and hybrid methods fare worse than the $S_8$ method at capturing
+%        the oscillatory flux pattern.
+%      \item The hybrid method performs better than the neutron diffusion method near $x=0$ cm where
+%        the control rod is situated.
+%    \end{itemize}
+%    \column{5.5cm}
+%    \begin{figure}[htb!]
+%      \centering
+%      \includegraphics[width=.975\columnwidth]{case-3b-flux-diff}
+%      \caption{Absolute difference in neutron group flux distributions for Case 3b from Moltres-$S_8$,
+%      Moltres-diffusion, Moltres-hybrid, and Python-hybrid relative to OpenMC-MG.}
+%      \label{fig:3b-flux-diff}
+%    \end{figure}
+%  \end{columns}
+%\end{frame}
+
+\begin{frame}
+  \frametitle{1-D MSRE Neutronics Simulation Results}
+  \textbf{Impact of Correction Subregion Sizes on Rod Worth}
+  \begin{itemize}
+    \item Rod worth estimates vary non-monotonically with increasing correction subregion size.
+    \item Rod worth estimates remain within 0.2\% of the $S_8$ method rod worth.
+    \item The hybrid method produces accurate rod worth estimates as long as the correction region
+      size is kept consistent.
+  \end{itemize}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[width=0.6\columnwidth]{correction-size-rho}
+    \caption{Percentage difference in rod worth from the hybrid method relative to OpenMC-CE for
+      Cases 3a and 3b with different correction subregion sizes.}
+    \label{fig:v1-size-rho}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{1-D MSRE Neutronics Simulation Results}
+  \begin{columns}
+    \column{6.5cm}
+    \textbf{Relaxing the $S_N$ Convergence Tolerance,} $\bm{\epsilon}_\text{tol}$
+    \begin{itemize}
+      \item Transport correction parameters converge faster than scalar flux in the $S_N$ subsolver.
+      \item Relaxing the $S_N$ subsolver convergence tolerance would provide computational savings.
+      \item The hybrid method exhibits superlinear ($q=1.333$) convergence in $k$ with respect to
+        the $S_8$ convergence tolerance value.
+    \end{itemize}
+    \begin{table}[h]
+      \centering
+      \caption{Number of outer iterations in hybrid method calculations of Case 3b for a given set of
+      convergence tolerance values imposed on the $S_8$ subsolver.}
+      \small
+      \setlength\tabcolsep{2pt}
+      \begin{tabular}{l S S S S S S}
+        \toprule
+        Tolerance value, $\epsilon_\text{tol}$ & {$10^{-8}$} & {$10^{-7}$} & {$10^{-6}$} & {$10^{-5}$} & {$10^{-4}$} & {$10^{-3}$} \\
+        \midrule
+        No.\ of outer iterations & 3 & 3 & 3 & 2 & 2 & 1 \\
+        \bottomrule
+      \end{tabular}
+      \label{table:sn-tol}
+    \end{table}
+    \column{4.5cm}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\columnwidth]{sn-tol}
+      \caption{$k_\text{eff}$ error estimates of Case 3b for a range of $S_8$ subsolver convergence tolerance values
+      relative to the reference $k_\text{eff}$ value when
+      $\epsilon_\text{tol}=10^{-8}$.}
+      \label{fig:sn-tol}
+    \end{figure}
+  \end{columns}
+\end{frame}
